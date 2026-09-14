@@ -155,6 +155,9 @@ heights are allowed and do not trigger a warning.
 Mathematical background
 =======================
 
+The construction below is described by Bauer et al. :footcite:`bauer2020cotorsion`.
+Our exposition largely follows the notes for the KTH TDA course (SF2565) :footcite:`Chacholski2026KthTdaNotes`.
+
 Linkage distances and merge heights
 -----------------------------------
 
@@ -290,6 +293,9 @@ the connected components of :math:`\mathcal{F}_t` are exactly the clusters
 in :math:`D_t`. Since clusters only merge as the scale increases,
 :math:`\mathcal{F}_s\subseteq\mathcal{F}_t` for :math:`s\leq t`.
 This nested family of complexes is a *filtration*.
+
+For single linkage, the Vietoris--Rips filtration of the original distance
+:math:`d` has the same connected components at each scale :footcite:`lee2012persistent`.
 
 Zeroth homology is
 
@@ -510,3 +516,8 @@ each basis vector and keep its coefficient:
 When several clusters map to the same cluster, their coefficients add.
 These linear maps satisfy the same identity and composition relations as
 the set maps.
+
+References
+==========
+
+.. footbibliography::
