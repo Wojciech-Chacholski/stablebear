@@ -1,5 +1,9 @@
 #include <gtest/gtest.h>
 
+#include <limits>
+#include <stdexcept>
+#include <vector>
+
 #include <sbear/persistence/linkage.hpp>
 #include <sbear/tensor.hpp>
 
@@ -13,6 +17,43 @@ namespace
   };
 
   TYPED_TEST_SUITE(LinkageToBarcodeTest, ScalarTypes);
+
+  // Shape-only tensor: oversized inputs must be rejected before accessing data.
+  template <typename T>
+  struct OversizedLinkage
+  {
+    using value_type = T;
+    std::vector<std::size_t> dimensions;
+
+    const auto& shape() const { return dimensions; }
+    std::size_t shape(std::size_t axis) const { return dimensions.at(axis); }
+    std::vector<std::size_t> strides() const { return {4, 1}; }
+    std::size_t rank() const { return 2; }
+    std::size_t size() const { throw std::logic_error("Unexpected size query"); }
+    T operator()(const std::vector<std::size_t>&) const
+    {
+      throw std::logic_error("Unexpected linkage data access");
+    }
+  };
+
+  TYPED_TEST(LinkageToBarcodeTest, RejectsOversizedMatrix)
+  {
+    const auto maxSize = std::numeric_limits<std::size_t>::max();
+    for (const auto rows : {(maxSize - 1) / 2 + 1, maxSize})
+    {
+      SCOPED_TRACE(rows);
+      const OversizedLinkage<TypeParam> linkage{{rows, 4}};
+      try
+      {
+        sb::ph::linkage_to_barcode(linkage);
+        FAIL() << "Expected oversized linkage matrix to be rejected";
+      }
+      catch (const std::invalid_argument& error)
+      {
+        EXPECT_STREQ(error.what(), "Linkage matrix is too large");
+      }
+    }
+  }
 
   TYPED_TEST(LinkageToBarcodeTest, NonMonotoneFlag)
   {
