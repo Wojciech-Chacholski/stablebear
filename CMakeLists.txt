@@ -604,6 +604,7 @@ SET(SB_PY_PERSISTENCE_SOURCES
     py_barcode.hpp py_barcode.cpp
     py_barcode_summary.hpp py_barcode_summary.cpp
     py_homological_kernel.hpp py_homological_kernel.cpp
+    py_linkage.hpp py_linkage.cpp
     py_persistence_pair.hpp py_persistence_pair.cpp
     py_ripser.hpp py_ripser.cpp
     pymodule_persistence.hpp pymodule_persistence.cpp
@@ -879,6 +880,7 @@ if (BUILD_TESTER)
       test/test_pcf_algebra_and_norms.cpp
       test/test_tensor_io_core.cpp
       test/test_barcode_and_stable_rank.cpp
+      test/test_linkage_to_barcode.cpp
       test/test_tensor_masked.cpp
       test/test_block_scheduler.cpp
       test/test_result_writer.cpp

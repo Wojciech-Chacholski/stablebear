@@ -344,6 +344,16 @@ Relative Persistent Homology
 
    homological-kernel
 
+
+Hierarchical Clustering
+=======================
+
+.. toctree::
+   :maxdepth: 1
+
+   linkage
+
+
 References
 ==========
 
